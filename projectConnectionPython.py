@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import mysql.connector as mariadb
 
-mariadb_connection = mariadb.connect(user='root', password='minimouse9798', database='DeltaMusic02')
+mariadb_connection = mariadb.connect(user='root', password='XXXXXXXXXXXXXXX', database='DeltaMusic02')
 cursor = mariadb_connection.cursor()
 
 
