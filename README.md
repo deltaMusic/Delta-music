@@ -22,9 +22,4 @@ Steps I took to confirm a connection between my python program and mariadb.
 
 Basically, once you make the connection, you can write a query as a string then connect it to the magaging system. 
 I will attach a file with basics on how to insert data, manipulate, create tables, etc...
-We should learn this quick as the application we are creating will involve more than just sending queries. Somwhow, we habe to get
-to the application of it (probably using Tkinter python module [google it!]). 
-
 You may need to download/upgrade certain features like python 2.7>. The difficult part for me was downloading 'mysql.connector'. 
-If you need help, reach out! :) it's doesn't take much time to set up. I will play around with the application part this weekend to see
-if it is doable. 
