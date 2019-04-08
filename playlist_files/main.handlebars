@@ -92,6 +92,7 @@
     <div id="playForm" style="display:none">
         <form method="post" action="/playlist-submit">
             Give it a name : <input type="text" name="name">
+            gdkmgd: <input type="text" name="blank">
             <input type="submit" value="Create New Playlist">
         </form>
 
@@ -110,6 +111,10 @@
         </form>
     </div>
 
+
+
+
+
     <script>
         function myFunction() {
             var x = document.getElementById("playForm");
@@ -122,11 +127,50 @@
         }
     </script>
 
+
     <div class="audioPlay"> 
-        <audio id="player" controls>
-            <source id="mp3_src" type="audio/mp3">
+        <audio src="" id="player" controls>
             Your browser does not support the audio element.
         </audio>
+
+        <ul id="playlist">
+            <li><a href="../music/Come Through and Chill.mp3">Come Through and Chill</a></li>
+            <li><a href="../music/Nights Like This (feat. Ty Dolla $ign).mp3">Nights Like This</a></li>
+        </ul>
+
+        {{!-- C:\project336\test\music\Come Through and Chill.mp3
+        C:\project336\test\views\layouts\main.handlebars --}}
+
+        <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+
+        <script>
+            audioPlayer();
+            
+            function audioPlayer(){
+            var currentSong = 0;
+            $("#audioPlayer")[0].src = $("#playlist li a")[0];
+            $("#audioPlayer")[0].play();
+            $("#playlist li a").click(function(e){
+               e.preventDefault(); 
+               $("#audioPlayer")[0].src = this;
+               $("#audioPlayer")[0].play();
+               $("#playlist li").removeClass("current-song");
+                currentSong = $(this).parent().index();
+                $(this).parent().addClass("current-song");
+            });
+            
+            $("#audioPlayer")[0].addEventListener("ended", function(){
+               currentSong++;
+                if(currentSong == $("#playlist li a").length)
+                    currentSong = 0;
+                $("#playlist li").removeClass("current-song");
+                $("#playlist li:eq("+currentSong+")").addClass("current-song");
+                $("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
+                $("#audioPlayer")[0].play();
+            });
+        }
+        </script>
+
     </div>
    
 </body>
