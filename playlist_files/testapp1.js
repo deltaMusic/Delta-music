@@ -34,7 +34,7 @@ app.post('/playlist-submit', (req, res) => {
   const libraryID = 1;
   const name = req.body.name;
 
-  connection.query(query_test_insert, [playlistID, libraryID, name], (error, results, fields) => {
+  connection.query(query_test_insert, [d, libraryID, name], (error, results, fields) => {
       if (error) {
           throw error;
       }
@@ -44,19 +44,5 @@ app.post('/playlist-submit', (req, res) => {
 });
 
 
-function change(sourceUrl) {
-  var audio = document.getElementById("player");
-  var source = document.getElementById("mp3_src");
-
-  audio.pause();
-  
-  if (sourceUrl) {
-    source.src = sourceUrl;
-    audio.load();
-    audio.play();
-  }
-}
-
 app.listen(3000);
-
 
