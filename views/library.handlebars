@@ -1,0 +1,43 @@
+<h1>This is MyLibrary</h1>
+
+<ul>
+    {{#each rows}}
+    <li>{{ @index }} : {{ playlistID }}: {{ name }} </li>
+       
+    {{/each}}
+</ul>
+
+<div id="playForm">
+
+    <form method="post" action="/create_playlist">
+        <input type="text" name="playlist_name" placeholder="Please Enter Playlist Name">
+        <input type="submit" value="Create New Playlist">
+    </form>
+
+</div>
+
+<br>
+<br>
+
+<form  method="post" action="/delete_playlist_test">
+    <input type="text" name="playlist" placeholder="Please Enter a PlaylistID">
+    <button type="submit">Delete!!</button>
+</form>
+
+<br>
+<br>
+
+<form action="/delete_playlist" method="post">
+    <div>Start: <input type="text" name="start"></div>
+    <div>Finish: <input type="text" name="finish"></div>
+    <input type="submit" value="Delete Playlist">
+</form>
+
+
+
+{{!-- I belive there are few ways to display list of data --}}
+{{!-- First, get.app with {result} then call out result with #each --}}
+{{!-- Second, connect to DB and create list and save the date to the list, then call out with iteration --}}
+{{!-- Third, Create Playlist / delete playlist --}}
+{{!-- Fourth, UI design -01  --}}
+{{!-- Fifth, Additional Features  --}}
