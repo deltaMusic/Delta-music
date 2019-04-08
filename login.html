@@ -3,15 +3,16 @@
 <html>
 <head>
         <link rel="stylesheet" href="some.css">
+        <script src="login.js"></script>
 </head>
   <body>
 	<title> Login Page </title>
       <h1> Delta Music </h1>
-      <form action="homepage.html">
+      <form id="form_id" name="myform" onSubmit="return validate();"  method="POST"   >
         UserName: </br>
-        <input type = "text" Name = "name" id="usrnm"> </br>
+        <input type = "text" Name = "name" id="usrnm" placeholder="Username" required> </br>
         Password </br>
-        <input type = "password" name = "psw" id="passwd"> </br>
+        <input type = "password" name = "psw" id="passwd"placeholder="Password" required> </br>
         <input type="submit"  value="Login" >
       </form>
 <p>
