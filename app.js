@@ -8,10 +8,9 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password : '',
-  database : 'deltamusic02'
+  database : 'deltamusic02',
+  multipleStatements: true
 });
-
-const query_playlist_select = 'SELECT * FROM Playlists ORDER BY playlistID';
 
 app.set('view engine', 'handlebars');
 app.engine( 'handlebars', exphbs( {
@@ -21,18 +20,16 @@ app.engine( 'handlebars', exphbs( {
     // layoutsDir: __dirname + '/views/pages/',
     partialsDir: __dirname + '/views/partials/'
   }));
-  // all the templates located in Views by default
-
-
-connection.connect(function(err) {
-    if (err) throw err
-}); 
-// Avoid  connect() and end() repeatly, it cause the problem
 
 app.use(express.urlencoded());
 
-app.get('/', function (req, res, next) {
+connection.connect(function(err) {
+    if (!err) throw err
+}); 
 
+const query_playlist_select = 'SELECT * FROM Playlists ORDER BY playlistID';
+
+app.get('/', function (req, res, next) {
     connection.query(query_playlist_select, function(err, rows, fields) {
     if (!err){
         
@@ -43,7 +40,6 @@ app.get('/', function (req, res, next) {
         };
 
         res.render('library', data);
-        // home-template for separate the section for CSS styling
 
     }else
         console.log('Error while performing Query.', err);
@@ -51,7 +47,7 @@ app.get('/', function (req, res, next) {
 });
 
     //////////////////////////////////
-    ///// Creating New Playlist /////
+    ///// Creating New Playlist //////
     //////////////////////////////////
 
     const query_playlist_insert = 'INSERT INTO Playlists (libraryID, name) VALUES (?, ?);';
@@ -76,16 +72,9 @@ app.get('/', function (req, res, next) {
       });
     });
 
+    /////////////////////////////////////////////////////////////////////////
 
-    // UI - Click on Edit button
-    // Check box is appear
-    // select playist to delete
-    // click on to delete the selected playlist(s)
-    // 
-
-    ////////////////////////////////////////////////////
-
-    app.post('/delete_playlist_test', (req, res) => {
+    app.post('/delete_playlist', (req, res) => {
       
       const playlist = req.body.playlist;
 
@@ -96,10 +85,9 @@ app.get('/', function (req, res, next) {
           console.log('PlaylistID : ' + playlist + ' Deleted successfully !');
           res.redirect('/')
       });
-  });
-    // work for single list deletion.
+    });
 
-    app.post('/delete_playlist', (req, res) => {
+    app.post('/delete_playlist_range', (req, res) => {
 
         const start = req.body.start;
         const finish = req.body.finish;
@@ -114,7 +102,68 @@ app.get('/', function (req, res, next) {
         });
     });
 
-    // work for the deletion of playlist.
+
+    ///////////////////////////////// Playlist ////////////////////////////////////////////////
+    
+    app.get('/playlist', function (req, res, next) {
+          
+        connection.query('SELECT * FROM Tracks', function(err, rows, fields) {
+        if (!err){
+            
+            var data = {
+              layout: 'main',
+              template: 'playlist-template',
+              rows
+            };
+            res.render('playlist', data);
+            console.log(rows);
+
+        }else
+            console.log('Error while performing Query1.', err);
+        });
+    });
+
+    ///////// SELECT the TrackID and add to the play list.
+    // I might need to display the playlist as well. list of them maybe
+    // select the song and select playlis then add
+
+        // const query_track_and_playlist_select = 'SELECT * FROM Tracks UNION SELECT * FROM Playlists';
+
+
+        app.post('/add_to_playlist', (req, res) => {
+
+            var select_track_list = []; // multiple tracks selected to store in array
+            
+            // how to display the playlist ??? - find out if we can make the two query connection.
+            // we can inser into the playlist where playlistID = ....
+    
+            const select_playlist = req.body.playlist;
+    
+            connection.query('INSERT INTO Playlists WHERE ? = playlistID;', [start, finish], (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                console.log('PlaylistID : ' + start);
+                console.log('');
+                res.redirect('/')
+            });
+            
+    
+            const start = req.body.start;
+            const finish = req.body.finish;
+    
+    
+            // insert into playlist [ selected play list ]
+            connection.query('DELETE FROM Playlists WHERE ? <= playlistID AND playlistID <= ?;', [start, finish], (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                console.log('PlaylistID Start: ' + start);
+                console.log('PlaylistID Finish: ' + finish);
+                console.log('Delete Completed !! or not');
+                res.redirect('/')
+            });
+        });
 
 app.listen(3000);
 

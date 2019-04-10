@@ -1,0 +1,47 @@
+<h1>Playlist Name should be appear here : need to find the solution</h1>
+
+
+   <form action="/add_to_playlist" method="post">
+    {{#each trackList}}
+        <li><input type="checkbox" name="track[{{@index}}]" value="{{trackID}}">{{name}}{{trackID}}</li>
+        <li>{{trackID}}</li>
+    {{/each}}
+    <br>
+    <br>
+    {{!-- {{if not exist not displaying the list}} --}}
+    
+    <select name="cars">
+    {{#each playList}}
+        <option value="{{name}}" name="{{playlistID}}">{{this.name}}</option>
+        <li>{{name}}</li>
+    {{/each}}
+    </select> 
+        
+    <input type="submit" value="Add to the playlist">
+    </form> 
+
+
+    {{!-- <br>
+    <br>
+        {{#each trackList}}
+            <li>{{name}}</li>
+        {{/each}}
+    <br>
+    <br>
+        {{#each playList}}
+            <li>{{playlistID}}</li>
+        {{/each}}
+    <br>
+    <br>
+        {{#each artistList}}
+            <li>{{artistID}}</li>
+        {{/each}}
+    <br>
+    <br> --}}
+
+
+    {{!-- design : maybe we use for the table? to make the looks more organized? or css style --}}
+    {{!-- need to modify SQL // this page should only display songs that we saved into the playlist. --}}
+
+    {{!-- name= track[0] // list of track to select  --}}
+    {{!-- vale= {{trackID}} // to select the track from DB --}}
