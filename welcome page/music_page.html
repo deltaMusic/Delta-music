@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <script src="jquery-3.3.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+        margin: 0;
+        font-family: 'Arial';
+        }
+        .header{
+            background-color: rgba(14, 8, 7, 0.349);
+            padding: 14px 40px;
+        }
+        .topnav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        } 
+        .topnav a.active {
+            background-color:#ebebff;
+            color:black;
+        }
+        .audioPlay {
+            position:fixed;
+            bottom:0px;
+            width: 100%;
+            height: auto;
+            padding: 15px;
+            background-color: rgba(14, 8, 7, 0.349);
+            color: #444;
+            margin: 0px auto;
+            overflow: hidden;
+        }
+
+        audio {
+             align-self: center;
+             width:98%
+        }
+        audio:nth-child(2), audio:nth-child(4), audio:nth-child(6) {
+            margin:0;
+        }  
+
+        #playForm {
+            width: 100%;
+            padding: 50px 0;
+            text-align: left;
+            background-color: rgba(49, 25, 182, 0.301);
+            margin-top: 20px;
+        }
+
+        .btn {
+            border: none;
+            background-color: inherit;
+            padding: 14px 28px;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 18px;
+        }
+
+    </style>
+    <meta charset="utf-8">
+    <title>Delta Music ONLINE</title>
+</head>
+
+<body bgcolor= "#ebebff" >
+    
+    <div class="topnav">
+        <a class="active" href='#home'>Home</a>
+        <a href="#Library">My Library</a>
+        <a href="#Account">Account Settings</a>
+    </div>
+
+    <div class="header">
+        <h1 align="center"><big>Playlists</big></h1>
+        <hr width="50%" align="center"> <hr>
+    </div>
+ 
+    <button class="btn" onclick="myFunction()">Make a New Playlist</button>
+
+    <div id="playForm" style="display:none">
+        <form method="post" action="/playlist-submit">
+            Give it a name : <input type="text" name="name">
+            gdkmgd: <input type="text" name="blank">
+            <input type="submit" value="Create New Playlist">
+        </form>
+
+        <br>
+
+        <form method="post" action="/playlist-tracks-submit">
+            Pick some songs :
+            <br> 
+            <select multiple class="chosen-select">
+                <option>Going Bad (feat. Drake) - Meek Mill</option>
+                <option>Nights Like This (feat. Ty Dolla $ign) - Kehlani</option> 
+                <option>Come Through and Chill (feat. J.Cole & Salaam Remi) - Miguel</option> 
+                <br><br>
+                <input type="submit" value="Done">
+            </select>
+        </form>
+    </div>
+
+
+
+
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("playForm");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            }    
+            else {
+                x.style.display = "block";
+            }
+        }
+    </script>
+
+
+    <div class="audioPlay"> 
+        <audio src="" id="player" controls>
+            Your browser does not support the audio element.
+        </audio>
+
+        <ul id="playlist">
+            <li><a href="../music/Come Through and Chill.mp3">Come Through and Chill</a></li>
+            <li><a href="../music/Nights Like This (feat. Ty Dolla $ign).mp3">Nights Like This</a></li>
+        </ul>
+
+        {{!-- C:\project336\test\music\Come Through and Chill.mp3
+        C:\project336\test\views\layouts\main.handlebars --}}
+
+        <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+
+        <script>
+            audioPlayer();
+            
+            function audioPlayer(){
+            var currentSong = 0;
+            $("#audioPlayer")[0].src = $("#playlist li a")[0];
+            $("#audioPlayer")[0].play();
+            $("#playlist li a").click(function(e){
+               e.preventDefault(); 
+               $("#audioPlayer")[0].src = this;
+               $("#audioPlayer")[0].play();
+               $("#playlist li").removeClass("current-song");
+                currentSong = $(this).parent().index();
+                $(this).parent().addClass("current-song");
+            });
+            
+            $("#audioPlayer")[0].addEventListener("ended", function(){
+               currentSong++;
+                if(currentSong == $("#playlist li a").length)
+                    currentSong = 0;
+                $("#playlist li").removeClass("current-song");
+                $("#playlist li:eq("+currentSong+")").addClass("current-song");
+                $("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
+                $("#audioPlayer")[0].play();
+            });
+        }
+        </script>
+
+    </div>
+   
+</body>
+</html>
